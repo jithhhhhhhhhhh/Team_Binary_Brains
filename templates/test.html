@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mindful Conversations</title>
+ <style>
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+  font-size: 28px;
+}
+
+.header-description {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.header-instructions {
+  font-size: 1.1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid #000;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: fit-content;
+  }
+}
+
+
+
+
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+nav h1 {
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+  font-size: 28px;
+  text-align: center;
+}
+
+.chatbot-container {
+  width: 60%;
+  height: 400px; /* Set the default height to 400px */
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-log {
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  overflow-x: hidden; /* Add this line to hide the horizontal scrollbar */
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+.chat-bubble {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.user .chat-bubble {
+  background-color: #cee4e5;
+}
+
+.bot .chat-bubble {
+  background-color: #d4d2e1;
+}
+
+.bot .chat-bubble::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  border: 8px solid transparent;
+  border-right-color: #d4d2e1;
+  transform: translateY(-50%);
+}
+
+.user .chat-bubble::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  border: 8px solid transparent;
+  border-left-color: #cee4e5;
+  transform: translateY(-50%);
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 768px) {
+  .chatbot-container {
+    width: 90%;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .chatbot-container {
+    width: 90%;
+    height: 250px;
+  }
+}
+ </style>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+
+  <title> Disease Diagnosis - About </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href={{ url_for("static", filename = "css/bootstrap.css") }} />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href={{ url_for("static", filename = "css/font-awesome.min.css" )}} rel="stylesheet" />
+
+  <!-- Custom s tyles for this template -->
+  <link href={{ url_for("static", filename = "css/style.css" )}} rel="stylesheet" />
+  <!-- responsive style -->
+  <link href={{ url_for("static", filename = "css/responsive.css" )}}  rel="stylesheet" />
+
+</head>
+<body class="sub_page">
+    <div class="hero_area">
+        <!-- header section strats -->
+        <header class="header_section" style="background-color: rgb(54, 45, 45);">
+          <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+              <a class="navbar-brand" href="{{ url_for('index')}}">
+                <span>
+                  Embracing Well-Being
+                </span>
+              </a>
+    
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class=""> </span>
+              </button>
+    
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('index')}}" >Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about')}}" > About</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('test')}}" > Dep Test</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('nailhome')}}" >Psychiatrist </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('stressbuster')}}">Stress Burster </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('qoute')}}" >Cheer Up</a>
+                  </li>
+                  <form class="form-inline">
+                    <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                  </form>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </header>
+        <!-- end header section -->
+      </div>
+  <div class="chatbot-container">
+    <div class="chat-log" id="chatLog"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Type your answer...">
+      <button id="sendButton">Send</button>
+    </div>
+  </div>
+<script>
+  const chatLog = document.getElementById("chatLog");
+  const userInput = document.getElementById("userInput");
+  const sendButton = document.getElementById("sendButton");
+  
+  const questions = [
+    "Do you often feel a sense of hopelessness or worthlessness?",
+    "Do you experience frequent changes in your appetite or weight?",
+    "Do you struggle with constant fatigue or lack of energy?",
+    "Do you have difficulty concentrating or making decisions?",
+    "Do you frequently experience feelings of sadness or tearfulness?",
+    "Do you find it challenging to enjoy activities or hobbies that used to bring you pleasure?",
+    "Do you often feel anxious, restless, or on edge?",
+    "Do you have trouble falling asleep, staying asleep, or experiencing restful sleep?",
+    "Do you have recurrent thoughts of death or suicidal ideation?",
+    "Do you feel a sense of isolation or disconnection from others?"
+  ];
+  
+  let currentQuestion = 0;
+  let noCount = 0;
+  
+  function generateChatBubble(text, isUser) {
+    const chatBubble = document.createElement("div");
+    chatBubble.classList.add("chat-bubble");
+    chatBubble.classList.add(isUser ? "user" : "bot");
+    chatBubble.innerText = text;
+    chatLog.appendChild(chatBubble);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+  
+  function askQuestion() {
+    generateChatBubble(questions[currentQuestion], false);
+    currentQuestion++;
+  }
+  
+  function processUserInput() {
+    const answer = userInput.value;
+    generateChatBubble(answer, true);
+  
+    if (answer.toLowerCase() === "yes") {
+      noCount++;
+    }
+  
+    if (currentQuestion < questions.length) {
+      askQuestion();
+    } else {
+      if (noCount > 5) {
+        window.location.href = "/nailhome";
+        alert("It is recommended that you consult a therapist.");
+      } else {
+        generateChatBubble("Thank you for sharing. It appears that you are mentally fine! Remember to cherish each moment, find joy in the little things, and nurture your mental well-being. You deserve to lead a fulfilling and happy life. Stay positive and embrace the beauty that surrounds you. Wishing you continued happiness and contentment on your journey!", false);
+      }
+      userInput.disabled = true;
+      sendButton.disabled = true;
+    }
+  
+    userInput.value = "";
+  }
+  
+  askQuestion();
+  sendButton.addEventListener("click", processUserInput);
+  userInput.addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+      processUserInput();
+    }
+  });
+  
+
+</script>
+</body>
+<footer class="footer_section"  style="background-color: rgb(54, 45, 45);">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 footer_col">
+          <div class="footer_contact">
+            <h4>
+              Reach at..
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +91 1234567890
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  demo@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="footer_social">
+            <a href="">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 footer_col">
+          <div class="footer_detail">
+            <h4>
+              About
+            </h4>
+            <p>
+             Health systems are under greater pressure than ever, but along with its other uses, the potential of AI to provide much-needed relief to overworked doctors. can streamline the triage process.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-2 mx-auto footer_col">
+          <div class="footer_link_box">
+            <h4>
+              Links
+            </h4>
+            <div class="footer_links">
+                <a class="active" href="{{ url_for('index' )}}">
+                    Home
+                  </a>
+                  <a class="" href="{{ url_for('about')}}">
+                    About
+                  </a>
+                  <a class="" href="{{ url_for('test' )}}">
+                    Dep Test 
+                  </a>
+                  <a class="" href="{{ url_for('nailhome' )}}">
+                   Psychiatrist
+                  </a>
+                  <a class="" href="{{ url_for('stressbuster' )}}">
+                    Stress Burster
+                   </a>
+                   <a class="" href="{{ url_for('qoute' )}}">
+                    Cheer Up
+                   </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 footer_col ">
+          <h4>
+            Newsletter
+          </h4>
+          <form action="#">
+            <input type="email" placeholder="Enter email" />
+            <button type="submit" style="background-color: rgb(54, 45, 45);">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+</html>

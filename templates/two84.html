@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <meta name="viewport" content="width=device-width, user-scalable=no"> -->
+    <title>2048 </title>
+    
+    <!-- <link rel="shortcut icon" href="./icons/2048.jpg" type="image/x-icon"> -->
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(135deg, #fff, rgb(141, 141, 141));
+    background-size: 300%;
+    background-position: left;
+    animation: bg-ani 5s infinite alternate;
+    font-size: 1.1rem;
+    font-family: 'Quicksand', sans-serif;
+    height: 100%;
+    overflow: hidden;
+}
+
+@keyframes bg-ani {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+
+/* nav bar start */
+
+nav {
+    width: 100vw;
+    background-color: #333;
+    position: absolute;
+    display: flex;
+    top: 2%;
+    color: #fff;
+}
+
+#logo {
+    margin-left: 40px;
+    font-size: 2em;
+    font-family: Candal;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: left;
+}
+
+li {
+    list-style-type: none;
+    margin: 0 2vw;
+    font-size: 3vh;
+}
+
+.nav-link {
+    user-select: none;
+    text-decoration: none;
+    color: #fff;
+    padding: 2vw;
+    font-family: monospace;
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.nav-link:hover {
+    background-color: #fff;
+    color: #333;
+    transition: color 1s;
+    transition: background-color 1s;
+}
+
+.current-tab {
+    background-color: #ccc5;
+    color: #fff;
+}
+
+
+/* modal box */
+
+
+/* btn start */
+
+.text-center {
+    margin: 10px;
+    left: 0%;
+    right: 0%;
+}
+
+.btn {
+    user-select: none;
+    background: #333;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Candal;
+    padding: 10px;
+    border-radius: 3px;
+    display: block;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+    box-shadow: 0 2px 20px black;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+}
+
+
+/* btn end */
+
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 12% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 26vh;
+    border-radius: 3px;
+    /* top: 500px; */
+}
+
+.game-over {
+    display: block;
+    font-weight: bold;
+    font-family: Candal;
+    font-size: 1.5em;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.reset-btn-wraper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: fit-content;
+}
+
+
+/* Modal Content/Box */
+
+
+/* table fonts */
+
+table {
+    font-family: Candal;
+}
+
+
+/* Score Card */
+
+#score-card {
+    font-weight: bold;
+    color: #333;
+}
+
+.score-block {
+    height: 40px;
+    width: 140px;
+    left: 0%;
+}
+
+.left-block {
+    justify-content: left;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: visible;
+}
+
+.right-block {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: visible;
+}
+
+#best {
+    overflow-x: visible;
+}
+
+#score {
+    justify-self: left;
+    overflow-x: visible;
+}
+
+#plusx {
+    display: flex;
+    justify-content: right;
+    /* margin-right: -20; */
+}
+
+#plus {
+    color: rgba(141, 141, 141, .5);
+    font-size: 1.6em;
+    font-weight: bold;
+    z-index: 1;
+    margin-left: -70px;
+    position: absolute;
+    animation: score-plus-animation 600ms ease-in;
+    opacity: 0;
+}
+
+@keyframes score-plus-animation {
+    0% {
+        scale: 0%;
+    }
+    50% {
+        opacity: 1;
+        scale: 100%;
+    }
+    100% {
+        margin-top: -70px;
+        scale: 0%;
+    }
+}
+
+#boardx {
+    margin-top: 80px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 gray, 0 4px 16px 0 grey;
+}
+
+
+/* row */
+
+.rowx {
+    display: flex;
+}
+
+
+/* for each cell of grid */
+
+.blockx {
+    user-select: none;
+    width: 60px;
+    height: 60px;
+    color: #555;
+    margin: 10px;
+    display: table-cell;
+    /* border-radius: 30%; */
+    font-family: monospace;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.c0 {
+    background-color: #eee8;
+    /* transition: background-color 0.5s; */
+}
+
+.cur {
+    animation: boom 300ms ease-out;
+}
+
+@keyframes boom {
+    0% {
+        background-color: #bbb;
+        color: rgb(29, 28, 26);
+        scale: 0;
+    }
+    80% {
+        scale: 130%;
+    }
+    100% {
+        scale: 100%;
+    }
+}
+
+.c2 {
+    background-color: #8dffdbad;
+}
+
+.c4 {
+    background-color: #02ffafb6;
+}
+
+.c8 {
+    background-color: #00ff6a;
+    /* color: #fff; */
+    box-shadow: 0 0 2px #00ff6a, 0 0 4px rgb(187, 255, 170);
+}
+
+.c16 {
+    background-color: #d5fa30ee;
+    box-shadow: 0 0 4px #d5fa30ee, 0 0 8px #d5fa30ee;
+}
+
+.c32 {
+    background-color: #ffd000bd;
+    box-shadow: 0 0 4px #ffd000bd, 0 0 8px #ffd000bd;
+}
+
+.c64 {
+    background-color: #ff5e00;
+    box-shadow: 0 0 4px #ff5e00, 0 0 8px #ff5e00;
+    color: #fff;
+}
+
+.c128 {
+    background-color: #ff2a0eda;
+    box-shadow: 0 0 5px #ff2a0eda, 0 0 10px #ff2a0eda;
+    color: #fff;
+}
+
+.c256 {
+    background-color: #cc33ffe8;
+    box-shadow: 0 0 6px #cc33ffe8, 0 0 12px #cc33ffe8;
+    color: #fff;
+}
+
+.c512 {
+    background-color: #6633ffec;
+    box-shadow: 0 0 6px #6633ffec, 0 0 15px #6633ffec;
+    color: #fff;
+}
+
+.c1024 {
+    background-color: #3366ffec;
+    box-shadow: 0 0 10px #3366ffec, 0 0 15px #3366ffec;
+    font-size: 2em;
+    color: #fff;
+}
+
+.c2048 {
+    background-color: #000dca;
+    font-size: 2em;
+    box-shadow: 0 0 10px #000dca, 0 0 20px #000dca;
+    color: #fff;
+}
+
+
+/* footer :start */
+
+.footer {
+    /* align-items: center;
+    justify-content: center; */
+    position: fixed;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+    width: 100%;
+    /* height: 100px; */
+    background-color: #333;
+    color: #fff;
+    font-size: small;
+    /* opacity: .9; */
+}
+
+.footer>div {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.social-icon {
+    height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    user-select: none;
+}
+
+.icon {
+    user-select: none;
+    justify-self: center;
+    vertical-align: middle;
+    height: 20px;
+    width: auto;
+}
+
+
+/* footer end */
+
+
+/* about page */
+
+#about-game,
+#how-to-play {
+    position: absolute;
+    top: 20%;
+    background-color: #fff;
+    height: 40vh;
+    left: 20%;
+    width: 50vw;
+    padding: 40px;
+}
+
+#about-game,
+#how-to-play>p {
+    padding: 10;
+    justify-content: center;
+    text-justify: newspaper;
+}
+
+.lets-play {
+    /* position: relative; */
+    bottom: 10%;
+}
+
+.heading {
+    position: absolute;
+    left: 20%;
+    top: 10%;
+}
+</style>
+<body>
+    <!-- <nav>
+        <div id="logo">
+            2048
+        </div>
+        <ul>
+            <li>
+                <a class="nav-link" target="_blank" href="https://github.com/pradeexsu/2048"> Code </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./how_to_play.html">How to play</a>
+            </li>
+            <li>
+                <a class="nav-link" href="./about.html">About</a>
+            </li>
+
+        </ul>
+    </nav> -->
+    <div>
+        <table id="boardx">
+            <tr class="rowx" id="score-card">
+                <td class="blcokx score-block left-block" colspan="2" rowspan="2">
+
+                    Score: &nbsp; <span id="score">0</span>
+                    <span id="plusx"></span>
+
+                </td>
+                <td class="blcokx score-block right-block" colspan="2" rowspan="2">
+                    Best: &nbsp; <span id="best">0</span>
+                </td>
+
+                </td>
+            </tr>
+            <tr class="rowx">
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+            </tr>
+            <tr class="rowx">
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+            </tr>
+            <tr class="rowx">
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+            </tr>
+            <tr class="rowx">
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+                <td class="blockx c0">&nbsp;</td>
+            </tr>
+        </table>
+        <div class="reset-btn-wraper">
+
+            <div class="text-center ">
+                <div class="btn reset">Reset</div>
+            </div>
+        </div>
+
+        <div class="modal">
+            <div class="modal-content text-center">
+                <div class="game-over">Game Over</div>
+                <div class="btn restart">Restart Game</div>
+            </div>
+        </div>
+    </div>
+<!-- footer -->
+    
+    <script>
+        var board = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
+]
+const n = 4
+
+var prev_count = {
+    "up": true,
+    "down": true,
+    "left": true,
+    "right": true
+}
+
+
+function _2048() {
+    board = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ]
+    let x = getRandFromZeroToN(n);
+    let y = getRandFromZeroToN(n);
+
+    board[x][y] = getRandomOf2OR4()
+    let pos = getIndexOfAllEmptyPos(board)
+    pos = getRandomPos(pos)
+    board[pos[0]][pos[1]] = getRandomOf2OR4()
+        // print(board)
+    return pos
+}
+
+function print(board) {
+    board.map(function(row) {
+        console.log(row)
+    })
+    console.log();
+}
+
+function getIndexOfAllEmptyPos(board) {
+    emptyPos = []
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] === 0)
+                emptyPos.push([i, j])
+        }
+    }
+    return emptyPos
+}
+
+function getRandFromZeroToN(n) {
+    return Math.floor(Math.random() * n)
+}
+
+function getRandomPos(posList) {
+    return posList[getRandFromZeroToN(posList.length)]
+}
+
+function getRandomOf2OR4() {
+    return Math.random() > .7 ? 2 : 4
+}
+
+function tiltLeft(board) {
+    let score = 0
+    board.map((row) => {
+        score += swipe(row)
+    })
+    return score
+}
+
+function tiltRight(board) {
+    let score = 0
+    board.map(function(row) {
+        row.reverse()
+        score += swipe(row)
+        row.reverse()
+    })
+    return score
+}
+
+function tiltUp(board) {
+    let score = 0
+    transpose(board)
+    board.map(function(row) {
+        score += swipe(row)
+    })
+    transpose(board)
+    return score
+}
+
+function tiltDown(board) {
+    let score = 0
+    transpose(board)
+    board.map(function(row) {
+        row.reverse()
+        score += swipe(row)
+        row.reverse()
+    })
+    transpose(board)
+    return score
+}
+
+// this function is transpose along principal digonal of the matrix
+function transpose(board) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < i; j++) {
+            const tmp = board[i][j];
+            board[i][j] = board[j][i];
+            board[j][i] = tmp;
+        }
+    }
+}
+
+// this function is transpose along other then principal digonal of the matrix
+
+function transpose2(board) {
+    let n = board.length
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            const tmp = board[i][j];
+            board[i][j] = board[n - j - 1][n - 1 - i];
+            board[n - j - 1][n - 1 - i] = tmp;
+        }
+    }
+}
+
+// pick first non empty
+// iterate from leftside pick first non-empty site and put in first empty tile or last un-used tile in same row
+
+
+
+// function for tilting the board in left diraction
+function swipe(row) {
+    let n = row.length
+    let last_merge = -1
+    let score = 0
+    for (let left = 1; left < n; left++) {
+
+        if (row[left] === 0)
+            continue
+        else {
+            // non zero value in iteration ...
+            for (let i = left - 1; i > last_merge; i--) {
+                if (row[i] === row[left]) {
+                    row[i] *= 2;
+                    row[left] = 0
+                    score += row[i]
+                    last_merge = i
+                    break
+                } else if (i === 0 && row[i] === 0) {
+                    row[i] = row[left]
+                    row[left] = 0;
+                } else if (row[i] !== 0) {
+                    row[i + 1] = row[left];
+                    if (i + 1 != left) {
+                        row[left] = 0
+                    }
+                    break
+                } else if (last_merge + 1 == i) {
+                    row[i] = row[left];
+                    row[left] = 0
+                    break
+                }
+            }
+        }
+    }
+    return score
+}
+
+// function for rendering template 
+
+function renderDisplay(just) {
+    let boardx = document.querySelector('#boardx')
+    let htmlTemplate = `${document.getElementById('score-card').outerHTML}`
+    for (let i = 0; i < n; i++) {
+        htmlTemplate += ` <tr class="rowx">`
+        for (let j = 0; j < n; j++) {
+            htmlTemplate += `<td class="blockx c${board[i][j]} ${just.i==i && just.j==j?'cur':''}">${  board[i][j]===0? ' ' : board[i][j] }</td>`
+        }
+        htmlTemplate += `</tr>`
+    }
+    boardx.innerHTML = htmlTemplate
+
+}
+
+function restart() {
+    document.querySelector('.modal').style = "display:block;"
+}
+
+
+
+// atteching event to button
+
+document.querySelector(".reset").addEventListener('click', () => {
+    let pos = _2048()
+    document.querySelector('#score').innerHTML = 0
+    renderDisplay({ 'i': pos[0], 'j': pos[1] })
+})
+
+
+document.onkeydown = function(event) {
+    let prev = JSON.stringify(board)
+    let score = 0
+    switch (event.keyCode) {
+        case 37:
+            score = tiltLeft(board)
+            if (JSON.stringify(board) == prev)
+                prev_count.left = true
+            break;
+        case 38:
+            score = tiltUp(board)
+            if (JSON.stringify(board) == prev)
+                prev_count.up = true
+
+            break;
+        case 39:
+            score = tiltRight(board)
+            if (JSON.stringify(board) == prev)
+                prev_count.right = true
+            break;
+        case 40:
+            if (JSON.stringify(board) == prev)
+                score = tiltDown(board)
+            prev_count.down = true
+            break;
+    }
+
+    let emptypos = getIndexOfAllEmptyPos(board)
+
+    if (emptypos.length === 0) {
+        if (prev_count.up && prev_count.down && prev_count.left && prev_count.right) {
+            restart()
+            document.querySelector('#score').innerHTML = 0
+
+        }
+
+    } else if (JSON.stringify(board) !== prev) {
+        let pos = getRandomPos(emptypos)
+        board[pos[0]][pos[1]] = getRandomOf2OR4()
+        if (score !== 0) {
+
+            let scoreBoard = parseInt(document.querySelector('#score').innerHTML)
+            scoreBoard += score
+            document.querySelector('#plusx').innerHTML = `<span id="plus">+${score}</span>`
+            document.querySelector('#score').innerHTML = scoreBoard
+
+            if (parseInt(document.querySelector('#best').innerHTML) < scoreBoard)
+                document.querySelector('#best').innerHTML = scoreBoard
+
+        } else {
+            document.querySelector('#plusx').innerHTML = `<span></span>`
+        }
+        renderDisplay({ 'i': pos[0], 'j': pos[1] })
+        prev_count.right = false
+        prev_count.up = false
+        prev_count.down = false
+        prev_count.left = false
+
+    }
+
+    // console.table(board)
+    // print(board)
+};
+
+document.querySelector('.restart').addEventListener('click', () => {
+    let xy = _2048()
+    renderDisplay({ 'i': xy[0], 'j': xy[1] })
+    document.querySelector('.modal').style = "display:none;"
+
+})
+
+// start
+
+let poss = _2048()
+renderDisplay({ 'i': poss[0], 'j': poss[1] })
+
+
+// for testing only
+// console.log(swipe([0, 1, 2, 8, 8, 0, 2, 1, 0, 0, 0, 1, 2, 0, 256, 256]))
+// console.log(swipe([2, 2, 2, 2]))
+
+// _2045()
+// c = [
+//     [1, 2, 3],
+//     [4, 5, 6],
+//     [7, 8, 9]
+// ]
+// transpose(c)
+// print(c)
+
+    </script>
+</body>
+
+</html>
