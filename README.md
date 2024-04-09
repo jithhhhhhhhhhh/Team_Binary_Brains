@@ -1,3 +1,6 @@
+SATWA 2024 - A 36 hour national level hackathon hosted by "SAINTGITS COLLEGE OF ENGINEERING"
+
+
 TEAM BINARY BRAINS
 
 “Embracing Well-Being: A Holistic Chatbot
